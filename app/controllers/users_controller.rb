@@ -25,7 +25,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
+    puts "ENvironment valraible #{ENV['SENDGRID_PASSWORD']}"
     respond_to do |format|
       if @user.save
         UserMailer.welcome_email(@user).deliver
