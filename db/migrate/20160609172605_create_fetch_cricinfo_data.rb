@@ -1,0 +1,8 @@
+class CreateFetchCricinfoData < ActiveRecord::Migration[5.0]
+  def change
+    create_table :fetch_cricinfo_data do |t|
+
+      t.timestamps
+    end
+  end
+end
