@@ -7,7 +7,8 @@ class UserMailer < ApplicationMailer
 		mail(to: @user.email, subject: 'Welcome to My Awesome Site')
 	end
 
-	def meanings_data(data)
+	def meanings_data(data, user)
+		@user = user
 		@data = data
 		mail(to: @user.email, subject: 'Daily Dosage of Meanings')
 	end
