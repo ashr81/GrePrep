@@ -61,6 +61,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def show_meaning_data
+    Rails.logger.debug "inside show_meaning_data"
+    @data = GetMeaningsData.get_words_total_data([params[:check_word]])
+  end
+
+  def enter_meaning
+    Rails.logger.debug "Params in enter_meaning #{params}"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
