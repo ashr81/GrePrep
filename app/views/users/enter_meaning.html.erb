@@ -1,10 +1,5 @@
-<% form_for(@user)  do |f| %>
-<div class="field">
-    <%= f.label 'Search Word' %>
-    <%= f.text_field :word %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %> 
+<%= form_tag(show_meaning_data_user_path, :method => 'get') do %>
+  <%= label_tag(:word_name, "Search for:") %>
+  <%= text_field_tag(:word_name) %>
+  <%= submit_tag("Search") %>
+<% end %>
