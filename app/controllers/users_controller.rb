@@ -63,7 +63,6 @@ class UsersController < ApplicationController
 
   def show_meaning_data
     @data = GetMeaningsData.get_words_total_data([params[:word_name]])
-    Rails.logger.debug "Getting data inside show_meaning_data "+@data.inspect
   end
 
   def enter_meaning

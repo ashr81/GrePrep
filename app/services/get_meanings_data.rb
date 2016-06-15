@@ -8,6 +8,7 @@ class GetMeaningsData
 		words_array.each do |word|
 			words_data.push(get_word_data(word)) 
 		end
+		Rails.logger.debug "Seperating API Data<=========================================================>"
 		return words_data
 	end
 	def self.get_word_data(word)
