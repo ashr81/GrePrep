@@ -39,7 +39,11 @@ class GetMeaningsData
 		response = Hash.from_xml(response).to_json
 		response = JSON.parse(response)
 		Rails.logger.debug "Response for dictionaryapi #{response}"
-		response = parse_word_meaning_from_dictionary(response["entry_list"]["entry"][0]) unless response["entry_list"]["entry"].nil?
+		if response["entry_list"]["entry"].is_a?(Array)
+			response = parse_word_meaning_from_dictionary(response["entry_list"]["entry"][0])
+		elsif response["entry_list"]["entry"].is_a?(Hash)
+			response = parse_word_meaning_from_dictionary(response["entry_list"]["entry"])
+		end	
 		return response
 	end
 	def self.parse_word_meaning_from_dictionary(word_data)
