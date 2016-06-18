@@ -12,9 +12,9 @@ Welldone! you choose a right path.
 					<% word_data.each do |word| %>
 						<% word.each do |key,value| %>
 							<%=key%>:<%=value%>
-						<% end %>
-					<% end %>
-				<% end %>
+						<% end unless word.nil? %>
+					<% end unless word_data.nil? %>
+				<% end unless total_data.nil? %>
 			<% end %>
 		<% end %>
 	<% end %>

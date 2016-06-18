@@ -20,13 +20,13 @@
 											<h4 class="list-group-item-heading"><%=key%></h4>
 											<h5 class="list-group-item-text list-move-up"><em><%=value%></em></h5></br>
 										</div>
-										<% end %>
+										<% end unless word.nil?%>
 									</li>
 								</ul>
-							<% end %>
+							<% end unless word_data.nil?%>
 						</div>
 					</div>
-				<% end %>
+				<% end unless total_data.nil? %>
 			</div>
 		</div>
 	<% end %>
