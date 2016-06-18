@@ -1,6 +1,7 @@
 <% unless @data.blank? %>
 	<p>Meaning Data</p>
 	<% @data.each do |main_word, total_data| %>
+		<div class="row">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h2 class="panel-title">Word: <%= main_word.capitalize %></h2>
@@ -28,6 +29,7 @@
 					</div>
 				<% end unless total_data.nil? %>
 			</div>
+		</div>
 		</div>
 	<% end %>
 <% end %>

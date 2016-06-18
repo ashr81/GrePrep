@@ -3,40 +3,36 @@
 <% if @data.blank? %>
 	<h4>It seems you don't have any meanings in your inventory</h4>
 <% else %>
-	<% @data.each do |each_meaning| %>
-		<% unless each_meaning.blank? %>
-			<div class="row">
-			<% each_meaning.each do |main_word, total_data| %>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h2 class="panel-title">Word: <%= main_word.capitalize %></h2>
-					</div>
-				<div class="panel-body">
+	<% @data.each do |main_word, total_data| %>
+		<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2 class="panel-title">Word: <%= main_word.capitalize %></h2>
+			</div>
+			<div class="panel-body">
 				<% total_data.each do |word_key,word_data| %>
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title"><%= word_key %></h3>
 						</div>
-					<div class="panel-body">
-					<% word_data.each do |word| %>
-						<ul class="list-group">
-							<li class="list-group-item">
-						<% word.each do |key,value| %>
-							<div>
-								<h4 class="list-group-item-heading"><%=key%></h4>
-								<h5 class="list-group-item-text list-move-up"><em><%=value%></em></h5></br>
-							</div>
-						<% end %>
-							</li>
-						</ul>
-					<% end %>
+						<div class="panel-body">
+							<% word_data.each do |word| %>
+								<ul class="list-group">
+									<li class="list-group-item">
+										<% word.each do |key,value| %>
+										<div>
+											<h4 class="list-group-item-heading"><%=key%></h4>
+											<h5 class="list-group-item-text list-move-up"><em><%=value%></em></h5></br>
+										</div>
+										<% end unless word.nil?%>
+									</li>
+								</ul>
+							<% end unless word_data.nil?%>
+						</div>
 					</div>
-					</div>
-				<% end %>
-				</div>
-				</div>
-			<% end %>
+				<% end unless total_data.nil? %>
 			</div>
-		<% end %>
+		</div>
+		</div>
 	<% end %>
 <% end %>

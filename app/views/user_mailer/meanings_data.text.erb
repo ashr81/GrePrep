@@ -3,19 +3,16 @@ Welldone! you choose a right path.
 <% if @data.blank? %>
 	It seems you don't have any meanings in your inventory
 <% else %>
-	<% @data.each do |each_meaning| %>
-		<% unless each_meaning.blank? %>
-			<% each_meaning.each do |main_word, total_data| %>
-				Word: <%= main_word.capitalize %>
-				<% total_data.each do |word_key,word_data| %>
-					<%= word_key %>
-					<% word_data.each do |word| %>
-						<% word.each do |key,value| %>
-							<%=key%>:<%=value%>
-						<% end unless word.nil? %>
-					<% end unless word_data.nil? %>
-				<% end unless total_data.nil? %>
-			<% end %>
+	<% @data.each do |main_word, total_data| %>
+			Word: <%= main_word.capitalize %>
+			<% total_data.each do |word_key,word_data| %>
+				<%= word_key %>
+				<% word_data.each do |word| %>
+					<% word.each do |key,value| %>
+						<%=key%>:<%=value%>
+					<% end unless word.nil? %>
+				<% end unless word_data.nil? %>
+			<% end unless total_data.nil? %>
 		<% end %>
 	<% end %>
 <% end %>
