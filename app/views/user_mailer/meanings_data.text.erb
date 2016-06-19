@@ -5,6 +5,7 @@ Welldone! you choose a right path.
 <% else %>
 	<% @data.each do |main_word, total_data| %>
 			Word: <%= main_word.capitalize %>
+			Gre Meaning: <%= total_data["original_gre_meaning"] %>
 		<% total_data.each do |word_key,word_data| %>
 			<%= word_key %>
 			<% word_data.each do |word| %>
