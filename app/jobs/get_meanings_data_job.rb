@@ -3,7 +3,9 @@ class GetMeaningsDataJob < ApplicationJob
 
   def self.perform(user_id)
   	user = User.find(user_id)
-    data = GetMeaningsData.get_words_total_data(user.meanings)
+	array_index_start = (Date.today.yday - 171)*50          #171 as Start date is on 19-June-2016
+	array_index_end =  (Date.today.yday - 170)*50
+    data = GetMeaningsData.get_words_total_data(user.meanings[array_index_start...array_index_end])
     Rails.logger.debug "inside GetMeaningsDataJob after getting data"
     UserMailer.meanings_data(data, user).deliver
     Rails.logger.debug "inside GetMeaningsDataJob after sending email to #{user_id}"
