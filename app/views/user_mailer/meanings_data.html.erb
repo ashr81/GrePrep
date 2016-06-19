@@ -25,13 +25,13 @@
 											<h4 class="list-group-item-heading"><%=key%></h4>
 											<h5 class="list-group-item-text list-move-up"><em><%=value%></em></h5></br>
 										</div>
-										<% end unless word.nil?%>
+										<% end if (!word.nil? && word.is_a?(Hash))%>
 									</li>
 								</ul>
-							<% end unless word_data.nil?%>
+							<% end if (!word_data.nil? && word_data.is_a?(Array)) %>
 						</div>
 					</div>
-				<% end unless total_data.nil? %>
+				<% end if (!total_data.nil? && total_data.is_a?(Hash) && word_key != "original_gre_meaning") %>
 			</div>
 		</div>
 		</div>

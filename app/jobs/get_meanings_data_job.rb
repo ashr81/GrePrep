@@ -6,9 +6,10 @@ class GetMeaningsDataJob < ApplicationJob
 	array_index_start = (Date.today.yday - 171)*50          #171 as Start date is on 19-June-2016
 	array_index_end =  (Date.today.yday - 170)*50
     data = GetMeaningsData.get_words_total_data(user.words[array_index_start...array_index_end])
+    Rails.logger.debug "inside GetMeaningsDataJob after before give gre_names getting data #{data}"
     user_meanings = user.meanings[array_index_start...array_index_end]
-    data.each{|key,value| value["original_gre_meaning"] = user_meanings[key]}
-    Rails.logger.debug "inside GetMeaningsDataJob after getting data"
+    data.each_with_index{|(key,value), index| value["original_gre_meaning"] = user_meanings[index]}
+    Rails.logger.debug "inside GetMeaningsDataJob after getting data #{data}"
     UserMailer.meanings_data(data, user).deliver
     Rails.logger.debug "inside GetMeaningsDataJob after sending email to #{user_id}"
   end

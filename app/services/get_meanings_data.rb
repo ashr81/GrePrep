@@ -9,17 +9,21 @@ class GetMeaningsData
 	end
 
 	def self.get_words_total_data(words_array)
-		begin
 			words_data = {}
 			words_array.each do |word|
-				words_data[word] = get_word_data(word)
+				begin
+					words_data[word] = get_word_data(word)
+				rescue RestClient::Exception => e
+					Rails.logger.debug "Error from Rest Client Itself"+e.inspect
+					words_data[word] = {}
+					next
+				rescue
+					words_data[word] = {}
+					next
+				end
 			end
 			Rails.logger.debug "Seperating API Data<=========================================================>"
 			return words_data
-		rescue RestClient::Exception => e
-			Rails.logger.debug "Error from Rest Client Itself"+e.inspect
-			return []
-		end
 	end
 
 	def self.get_word_data(word)
@@ -47,14 +51,22 @@ class GetMeaningsData
 		return response
 	end
 	def self.parse_word_meaning_from_dictionary(word_data)
-		word_hash = {}
-		word_hash["word"] = word_data["id"] unless word_data["id"].nil?
-		word_hash["meaning"] = word_data["def"]["dt"] unless word_data["def"]["dt"].nil?
-		word_hash["pronunciation"] = word_data["hw"] unless word_data["hw"].nil?
-		word_hash["raw_word"] = word_data["pr"] unless word_data["pr"].nil?
-		word_hash["word_usage"] = word_data["in"].map{|x| x.values}.flatten	unless word_data["in"].nil?
-		word_hash["etymology"] = word_data["et"] unless word_data["et"].nil?
-		word_hash["word_types"] = word_data["def"]["uro"].map{|i| {"word"=>i["ure"],"part_of_speech"=>i["fl"]}} unless word_data["def"]["uro"].nil?
+			word_hash = {}
+		begin
+			word_hash["word"] = word_data["id"] unless word_data["id"].nil?
+			word_hash["meaning"] = word_data["def"]["dt"] unless word_data["def"]["dt"].nil?
+			word_hash["pronunciation"] = word_data["hw"] unless word_data["hw"].nil?
+			word_hash["raw_word"] = word_data["pr"] unless word_data["pr"].nil?
+			if word_data["in"].is_a?(Array)
+				word_hash["word_usage"] = word_data["in"].flatten unless word_data["in"].nil?
+			elsif word_data["in"].is_a?(Hash)
+				word_hash["word_usage"] = word_data["in"].map{|x| x.values}.flatten	unless word_data["in"].nil?
+			end
+			word_hash["etymology"] = word_data["et"] unless word_data["et"].nil?
+			word_hash["word_types"] = word_data["def"]["uro"].map{|i| {"word"=>i["ure"],"part_of_speech"=>i["fl"]}} unless word_data["def"]["uro"].nil?
+		rescue
+			return [word_hash]
+		end	
 		return [word_hash]
 	end
 
@@ -75,8 +87,13 @@ class GetMeaningsData
 		words_array = []
 		word_data.each do |data|
 			word_hash = {}
-			word_hash["raw_type"] = data["rawType"]
-			word_hash["raw"] = data["raw"]
+			begin
+				word_hash["raw_type"] = data["rawType"]
+				word_hash["raw"] = data["raw"]
+				words_array.push(word_hash)
+			rescue Exception
+				next
+			end
 		end
 	end
 
@@ -90,9 +107,13 @@ class GetMeaningsData
 		words_array = []
 		word_data.each do |data|
 			word_hash = {}
-			word_hash["relationship_type"] = data["relationshipType"]
-			word_hash["words"] = data["words"]
-			words_array.push(word_hash)
+			begin
+				word_hash["relationship_type"] = data["relationshipType"]
+				word_hash["words"] = data["words"]
+				words_array.push(word_hash)
+			rescue Exception
+				next
+			end
 		end
 		return word_array
 	end
@@ -104,15 +125,17 @@ class GetMeaningsData
 		return response
 	end
 	def self.parse_word_top_example(word)
-		words_array = []
 		if word.is_a?(Hash)
 			word_hash = {}
-			word_hash["word"] = word["word"]
-			word_hash["title"] = word["title"]
-			word_hash["example"] = word["text"]
-			words_array.push(word_hash)
+			begin
+				word_hash["word"] = word["word"]
+				word_hash["title"] = word["title"]
+				word_hash["example"] = word["text"]
+			rescue Exception
+				return [word_hash]
+			end
 		end
-		return words_array
+		return [word_hash]
 	end
 
 	def self.get_word_examples(word)
@@ -125,10 +148,14 @@ class GetMeaningsData
 		examples_array = []
 		examples["examples"].each do |example|
 			example_data = {}
-			example_data["word"] = example["word"] unless example["word"].nil?
-			example_data["title"] = example["title"] unless example["title"].nil?
-			example_data["example"] = example["text"] unless example["text"].nil?
-			examples_array.push(example_data)
+			begin
+				example_data["word"] = example["word"] unless example["word"].nil?
+				example_data["title"] = example["title"] unless example["title"].nil?
+				example_data["example"] = example["text"] unless example["text"].nil?
+				examples_array.push(example_data)
+			rescue Exception
+				next
+			end
 		end
 		return examples_array
 	end
@@ -143,10 +170,14 @@ class GetMeaningsData
 		definition_array = []
 		definition.each do |data|
 			word_data = {}
-			word_data["word"] = data["word"] unless data["word"].nil?
-			word_data["part_of_speech"] = data["partOfSpeech"] unless data["partOfSpeech"].nil?
-			word_data["usage"] = data["text"] unless data["text"].nil?
-			definition_array.push(word_data)
+			begin
+				word_data["word"] = data["word"] unless data["word"].nil?
+				word_data["part_of_speech"] = data["partOfSpeech"] unless data["partOfSpeech"].nil?
+				word_data["usage"] = data["text"] unless data["text"].nil?
+				definition_array.push(word_data)
+			rescue Exception
+				next
+			end
 		end
 		return definition_array
 	end

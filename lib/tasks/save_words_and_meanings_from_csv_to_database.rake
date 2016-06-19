@@ -2,7 +2,7 @@ require 'csv'
 desc "This task to save words and meanings from csv to database"
 task :save_words_and_meanings_from_csv_to_database, [:file] => :environment do |t, args|
 	import_file_url = args[:file]
-
+	puts "file url: https://docs.google.com/spreadsheets/d/1NuyzWBwJ6HGYWvNImNqh93B7cExC7UFuyV56zDd-yro/export?format=csv"
   	puts import_file_url
 
   	upload_file_path = Rails.root.join("tmp", (0...10).map { ('a'..'z').to_a[rand(26)] }.join + "_", 'sch_reports_#{Process.pid}.csv')
