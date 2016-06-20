@@ -13,25 +13,27 @@
 			<div class="panel-body">
 				<% total_data.each do |word_key,word_data| %>
 					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title"><%= word_key %></h3>
-						</div>
-						<div class="panel-body">
-							<% word_data.each do |word| %>
-								<ul class="list-group">
-									<li class="list-group-item">
-										<% word.each do |key,value| %>
-										<div>
-											<h4 class="list-group-item-heading"><%=key%></h4>
-											<h5 class="list-group-item-text list-move-up"><em><%=value%></em></h5></br>
-										</div>
-										<% end if (!word.nil? && word.is_a?(Hash))%>
-									</li>
-								</ul>
-							<% end if (!word_data.nil? && word_data.is_a?(Array)) %>
-						</div>
+						<% if word_key != "original_gre_meaning" %>
+							<div class="panel-heading">
+								<h3 class="panel-title"><%= word_key %></h3>
+							</div>
+							<div class="panel-body">
+								<% word_data.each do |word| %>
+									<ul class="list-group">
+										<li class="list-group-item">
+											<% word.each do |key,value| %>
+											<div>
+												<h4 class="list-group-item-heading"><%=key%></h4>
+												<h5 class="list-group-item-text list-move-up"><em><%=value%></em></h5></br>
+											</div>
+											<% end if (!word.nil? && word.is_a?(Hash))%>
+										</li>
+									</ul>
+								<% end if (!word_data.nil? && word_data.is_a?(Array)) %>
+							</div>
+						<% end %>
 					</div>
-				<% end if (!total_data.nil? && total_data.is_a?(Hash) && word_key != "original_gre_meaning") %>
+				<% end if (!total_data.nil? && total_data.is_a?(Hash)) %>
 			</div>
 		</div>
 		</div>

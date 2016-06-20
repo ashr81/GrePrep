@@ -7,12 +7,14 @@ Welldone! you choose a right path.
 			Word: <%= main_word.capitalize %>
 			Gre Meaning: <%= total_data["original_gre_meaning"] %>
 		<% total_data.each do |word_key,word_data| %>
-			<%= word_key %>
-			<% word_data.each do |word| %>
-				<% word.each do |key,value| %>
-					<%=key%>:<%=value%>
-				<% end if (!word.nil? && word.is_a?(Hash)) %>
-			<% end if (!word_data.nil? && word_data.is_a?(Array)) %>
-		<% end if (!total_data.nil? && total_data.is_a?(Hash)&& word_key != "original_gre_meaning") %>
+			<% if word_key != "original_gre_meaning" %>
+				<%= word_key %>
+				<% word_data.each do |word| %>
+					<% word.each do |key,value| %>
+						<%=key%>:<%=value%>
+					<% end if (!word.nil? && word.is_a?(Hash)) %>
+				<% end if (!word_data.nil? && word_data.is_a?(Array)) %>
+			<% end %>
+		<% end if (!total_data.nil? && total_data.is_a?(Hash)) %>
 	<% end %>
 <% end %>
